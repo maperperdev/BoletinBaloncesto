@@ -1,5 +1,6 @@
 package ejb;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,6 +32,12 @@ public class JugadoresFacadeImpl extends AbstractFacadeJPAImpl<Jugador> implemen
 	@Override
 	protected EntityManager getEm() {
 		return em;
+	}
+
+	@Override
+	public List<String> findAllNames() {
+		List<String> listaNombres = new ArrayList<>();
+		
 	}
 
 }
