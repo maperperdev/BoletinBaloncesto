@@ -7,10 +7,10 @@
 		transaction-type="JTA">
 		<jta-data-source>jdbc/baloncesto</jta-data-source>
 		<class>modelo.Equipo</class>
-		<class>modelo.Jugador</class>
+		<class>modelo.Jugadore</class>
 		<class>modelo.Partido</class>
-		<class>modelo.PartidosJugadores</class>
-		<class>modelo.PartidosJugadoresPK</class>
+		<class>modelo.PartidosJugadore</class>
+		<class>modelo.PartidosJugadorePK</class>
 		<class>modelo.Temporada</class>
 		<class>modelo.TempEquipoJugador</class>
 		<class>modelo.TempEquipoJugadorPK</class>

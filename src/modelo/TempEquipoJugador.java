@@ -25,10 +25,10 @@ public class TempEquipoJugador implements Serializable {
 	@JoinColumn(name="CODEQUIPO")
 	private Equipo equipo;
 
-	//bi-directional many-to-one association to Jugador
+	//bi-directional many-to-one association to Jugadore
 	@ManyToOne
 	@JoinColumn(name="CODJUGADOR")
-	private Jugador jugadore;
+	private Jugadore jugadore;
 
 	//bi-directional many-to-one association to Temporada
 	@ManyToOne
@@ -62,11 +62,11 @@ public class TempEquipoJugador implements Serializable {
 		this.equipo = equipo;
 	}
 
-	public Jugador getJugadore() {
+	public Jugadore getJugadore() {
 		return this.jugadore;
 	}
 
-	public void setJugadore(Jugador jugadore) {
+	public void setJugadore(Jugadore jugadore) {
 		this.jugadore = jugadore;
 	}
 

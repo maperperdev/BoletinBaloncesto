@@ -1,7 +1,6 @@
 package ejb;
 
 
-
 public interface AbstractFacadeJPA<T> {
 
 	void create(T entity);

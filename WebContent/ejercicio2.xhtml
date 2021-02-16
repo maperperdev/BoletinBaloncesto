@@ -4,19 +4,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Ejercicio 2</title>
-	<h:outputScript library="js" name="spanishLocale.js"/>
+	<h:outputScript library="js" name="spanishLocale.js">
+
+	</h:outputScript>
 </h:head>
 
 <h:body>
-<h:selectOneMenu value="#{Ejercicio2Controller.jugador.nombrejugador}">
-    <f:selectItems value="#{Ejercicio2Controller.listaJugadores}" />
-</h:selectOneMenu>
+
+	<h:form>
+		<p:selectOneMenu value="#{ejercicio2Controller.temporada.nombre}">
+			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+			<f:selectItems value="#{ejercicio2Controller.listaTemporadas}"
+				var="temporada" itemLabel="#{temporada.nombre}"
+				itemValue="#{temporada.codtemp}" />
+		</p:selectOneMenu>
+
+		<p:selectOneMenu
+			value="#{ejercicio2Controller.jugadore.nombrejugador}">
+			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+			<f:selectItems value="#{ejercicio2Controller.listaJugadores}"
+				var="jugador" itemLabel="#{jugador.nombrejugador}"
+				itemValue="#{jugador.codjugador}" />
+		</p:selectOneMenu>
+
+		<p:selectOneMenu value="#{ejercicio2Controller.partido.codpartido}">
+			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+			<f:selectItems value="#{ejercicio2Controller.listaPartidos}"
+				var="partido" itemLabel="#{partido.codpartido}"
+				itemValue="#{partido.codpartido}" />
+		</p:selectOneMenu>
+
+	<p:inputText id="txtCanastas" value="#{ejercicio2Controller.partidoJugador.canastas}" required="true" requiredMessage="Campo Requerido "></p:inputText>
+			<p:message for="txtCanastas"/>
+
+	<p:inputText id="txtAsistencias" value="#{ejercicio2Controller.partidoJugador.asistencias}" required="true" requiredMessage="Campo Requerido "></p:inputText>
+			<p:message for="txtAsistencias"/>
+
+	<p:inputText id="txtRebotes" value="#{ejercicio2Controller.partidoJugador.rebotes}" required="true" requiredMessage="Campo Requerido "></p:inputText>
+			<p:message for="txtRebotes"/>
+
+
+<p:commandButton value="Insertar datos jugador" actionListener="#{ejercicio2Controller.insertaJugador()}" />
+
+	</h:form>
 
 </h:body>
-
 
 </html>

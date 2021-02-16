@@ -12,11 +12,12 @@ import java.util.List;
  */
 @Entity
 @Table(name="JUGADORES")
-@NamedQuery(name="Jugador.findAll", query="SELECT j FROM Jugador j")
-public class Jugador implements Serializable {
+@NamedQuery(name="Jugadore.findAll", query="SELECT j FROM Jugadore j")
+public class Jugadore implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="CODJUGADOR")
 	private String codjugador;
 
@@ -27,15 +28,15 @@ public class Jugador implements Serializable {
 	@Column(name="NOMBREJUGADOR")
 	private String nombrejugador;
 
-	//bi-directional many-to-one association to PartidosJugadores
+	//bi-directional many-to-one association to PartidosJugadore
 	@OneToMany(mappedBy="jugadore")
-	private List<PartidosJugadores> partidosJugadores;
+	private List<PartidosJugadore> partidosJugadores;
 
 	//bi-directional many-to-one association to TempEquipoJugador
 	@OneToMany(mappedBy="jugadore")
 	private List<TempEquipoJugador> tempEquipoJugadors;
 
-	public Jugador() {
+	public Jugadore() {
 	}
 
 	public String getCodjugador() {
@@ -62,22 +63,22 @@ public class Jugador implements Serializable {
 		this.nombrejugador = nombrejugador;
 	}
 
-	public List<PartidosJugadores> getPartidosJugadores() {
+	public List<PartidosJugadore> getPartidosJugadores() {
 		return this.partidosJugadores;
 	}
 
-	public void setPartidosJugadores(List<PartidosJugadores> partidosJugadores) {
+	public void setPartidosJugadores(List<PartidosJugadore> partidosJugadores) {
 		this.partidosJugadores = partidosJugadores;
 	}
 
-	public PartidosJugadores addPartidosJugadore(PartidosJugadores partidosJugadore) {
+	public PartidosJugadore addPartidosJugadore(PartidosJugadore partidosJugadore) {
 		getPartidosJugadores().add(partidosJugadore);
 		partidosJugadore.setJugadore(this);
 
 		return partidosJugadore;
 	}
 
-	public PartidosJugadores removePartidosJugadore(PartidosJugadores partidosJugadore) {
+	public PartidosJugadore removePartidosJugadore(PartidosJugadore partidosJugadore) {
 		getPartidosJugadores().remove(partidosJugadore);
 		partidosJugadore.setJugadore(null);
 

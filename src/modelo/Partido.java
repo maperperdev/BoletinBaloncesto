@@ -16,6 +16,7 @@ public class Partido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="CODPARTIDO")
 	private String codpartido;
 
@@ -43,9 +44,9 @@ public class Partido implements Serializable {
 	@JoinColumn(name="TEMPORADA")
 	private Temporada temporadaBean;
 
-	//bi-directional many-to-one association to PartidosJugadores
+	//bi-directional many-to-one association to PartidosJugadore
 	@OneToMany(mappedBy="partido")
-	private List<PartidosJugadores> partidosJugadores;
+	private List<PartidosJugadore> partidosJugadores;
 
 	public Partido() {
 	}
@@ -106,22 +107,22 @@ public class Partido implements Serializable {
 		this.temporadaBean = temporadaBean;
 	}
 
-	public List<PartidosJugadores> getPartidosJugadores() {
+	public List<PartidosJugadore> getPartidosJugadores() {
 		return this.partidosJugadores;
 	}
 
-	public void setPartidosJugadores(List<PartidosJugadores> partidosJugadores) {
+	public void setPartidosJugadores(List<PartidosJugadore> partidosJugadores) {
 		this.partidosJugadores = partidosJugadores;
 	}
 
-	public PartidosJugadores addPartidosJugadore(PartidosJugadores partidosJugadore) {
+	public PartidosJugadore addPartidosJugadore(PartidosJugadore partidosJugadore) {
 		getPartidosJugadores().add(partidosJugadore);
 		partidosJugadore.setPartido(this);
 
 		return partidosJugadore;
 	}
 
-	public PartidosJugadores removePartidosJugadore(PartidosJugadores partidosJugadore) {
+	public PartidosJugadore removePartidosJugadore(PartidosJugadore partidosJugadore) {
 		getPartidosJugadores().remove(partidosJugadore);
 		partidosJugadore.setPartido(null);
 

@@ -10,12 +10,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="PARTIDOS_JUGADORES")
-@NamedQuery(name="PartidosJugadores.findAll", query="SELECT p FROM PartidosJugadores p")
-public class PartidosJugadores implements Serializable {
+@NamedQuery(name="PartidosJugadore.findAll", query="SELECT p FROM PartidosJugadore p")
+public class PartidosJugadore implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private PartidosJugadoresPK id;
+	private PartidosJugadorePK id;
 
 	@Column(name="ASISTENCIAS")
 	private int asistencias;
@@ -26,24 +26,24 @@ public class PartidosJugadores implements Serializable {
 	@Column(name="REBOTES")
 	private int rebotes;
 
-	//bi-directional many-to-one association to Jugador
+	//bi-directional many-to-one association to Jugadore
 	@ManyToOne
 	@JoinColumn(name="CODJUGADOR")
-	private Jugador jugadore;
+	private Jugadore jugadore;
 
 	//bi-directional many-to-one association to Partido
 	@ManyToOne
 	@JoinColumn(name="CODPARTIDO")
 	private Partido partido;
 
-	public PartidosJugadores() {
+	public PartidosJugadore() {
 	}
 
-	public PartidosJugadoresPK getId() {
+	public PartidosJugadorePK getId() {
 		return this.id;
 	}
 
-	public void setId(PartidosJugadoresPK id) {
+	public void setId(PartidosJugadorePK id) {
 		this.id = id;
 	}
 
@@ -71,11 +71,11 @@ public class PartidosJugadores implements Serializable {
 		this.rebotes = rebotes;
 	}
 
-	public Jugador getJugadore() {
+	public Jugadore getJugadore() {
 		return this.jugadore;
 	}
 
-	public void setJugadore(Jugador jugadore) {
+	public void setJugadore(Jugadore jugadore) {
 		this.jugadore = jugadore;
 	}
 
