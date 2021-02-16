@@ -8,13 +8,10 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.TypedQuery;
 
 import ejb.JugadoreFacade;
 import ejb.PartidoFacade;
 import ejb.PartidoJugadoreFacade;
-import ejb.PartidosFacadeImpl;
-import ejb.PartidosJugadoreFacadeImpl;
 import ejb.TemporadaFacade;
 import modelo.Jugadore;
 import modelo.Partido;
@@ -39,14 +36,12 @@ public class Ejercicio2Controller implements Serializable {
 	@EJB
 	private PartidoJugadoreFacade partidoJugadoreFacade;
 	
-	@Inject
-	private Jugadore jugadore;
-	
-	@Inject
-	private Temporada temporada;
-	
-	@Inject
-	private Partido partido;
+	private String codTemp;
+	private String codJugador;
+	private String codPartido;
+	private String canastas;
+	private String asistencias;
+	private String rebotes;
 	
 	@Inject
 	private PartidosJugadore partidoJugador;
@@ -89,30 +84,6 @@ public class Ejercicio2Controller implements Serializable {
 		this.listaJugadores = listaJugadores;
 	}
 
-	public Jugadore getJugadore() {
-		return jugadore;
-	}
-
-	public void setJugadore(Jugadore jugadore) {
-		this.jugadore = jugadore;
-	}
-
-	public Temporada getTemporada() {
-		return temporada;
-	}
-
-	public void setTemporada(Temporada temporada) {
-		this.temporada = temporada;
-	}
-
-	public Partido getPartido() {
-		return partido;
-	}
-
-	public void setPartido(Partido partido) {
-		this.partido = partido;
-	}
-
 	public List<Temporada> getListaTemporadas() {
 		return listaTemporadas;
 	}
@@ -130,18 +101,72 @@ public class Ejercicio2Controller implements Serializable {
 	}
 
 	public void insertaJugador() {
-		List<PartidosJugadore> listaPartidoJugador = partidoJugadoreFacade.jugadorTemporadaPartido(jugadore.getCodjugador(),
-				temporada.getCodtemp(), partido.getCodpartido());
-		
+		List<PartidosJugadore> listaPartidoJugador = partidoJugadoreFacade.jugadorTemporadaPartido(codJugador,
+				codTemp, codPartido);
+		System.out.println();
 		if (listaPartidoJugador.size() > 0) {
 			System.out.println("El jugador existe");
+			partidoJugador = listaPartidoJugador.get(0);
+			partidoJugador.setAsistencias(Integer.parseInt(asistencias));
+			partidoJugador.setCanastas(Integer.parseInt(canastas));
+			partidoJugador.setRebotes(Integer.parseInt(rebotes));
+			partidoJugadoreFacade.update(partidoJugador);
+			/*
+			 * partidoFacade.update(new PartidosJugadore());
+			 */
 		} else {
 			System.out.println("El jugador no existe");
 		}
 		
-		
-		
-		  
+  
+	}
+
+	public String getCodTemp() {
+		return codTemp;
+	}
+
+	public void setCodTemp(String codTemp) {
+		this.codTemp = codTemp;
+	}
+
+	public String getCodJugador() {
+		return codJugador;
+	}
+
+	public void setCodJugador(String codJugador) {
+		this.codJugador = codJugador;
+	}
+
+	public String getCodPartido() {
+		return codPartido;
+	}
+
+	public void setCodPartido(String codPartido) {
+		this.codPartido = codPartido;
+	}
+
+	public String getCanastas() {
+		return canastas;
+	}
+
+	public void setCanastas(String canastas) {
+		this.canastas = canastas;
+	}
+
+	public String getAsistencias() {
+		return asistencias;
+	}
+
+	public void setAsistencias(String asistencias) {
+		this.asistencias = asistencias;
+	}
+
+	public String getRebotes() {
+		return rebotes;
+	}
+
+	public void setRebotes(String rebotes) {
+		this.rebotes = rebotes;
 	}
 	
 }

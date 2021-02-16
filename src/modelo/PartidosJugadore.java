@@ -38,6 +38,28 @@ public class PartidosJugadore implements Serializable {
 
 	public PartidosJugadore() {
 	}
+	
+	
+
+	public PartidosJugadore(PartidosJugadorePK id, int asistencias, int canastas, int rebotes, Jugadore jugadore,
+			Partido partido) {
+		this.id = id;
+		this.asistencias = asistencias;
+		this.canastas = canastas;
+		this.rebotes = rebotes;
+		this.jugadore = jugadore;
+		this.partido = partido;
+	}
+
+	public PartidosJugadore(int asistencias, int canastas, int rebotes, Jugadore jugadore,
+			Partido partido) {
+		this.asistencias = asistencias;
+		this.canastas = canastas;
+		this.rebotes = rebotes;
+		this.jugadore = jugadore;
+		this.partido = partido;
+	}
+
 
 	public PartidosJugadorePK getId() {
 		return this.id;

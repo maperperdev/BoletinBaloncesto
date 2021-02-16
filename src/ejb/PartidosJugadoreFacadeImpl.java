@@ -30,9 +30,9 @@ public class PartidosJugadoreFacadeImpl extends AbstractFacadeJPAImpl<PartidosJu
 	}
 	@Override
 	public List<PartidosJugadore> jugadorTemporadaPartido(String codJugador, String codTemporada, String codPartido) {
-		TypedQuery<PartidosJugadore> query = this.getEm().createQuery("select pj from PartidosJugadore pj where pj.jugadore.codjugador = "
-				+ codJugador + " and pj.partido.temporadaBean.codtemp = " + codTemporada
-				+ " and pj.partido.codpartido = " + codPartido, PartidosJugadore.class);
+		TypedQuery<PartidosJugadore> query = this.getEm().createQuery("select pj from PartidosJugadore pj where pj.jugadore.codjugador = '"
+				+ codJugador + "' and pj.partido.temporadaBean.codtemp = '" + codTemporada
+				+ "' and pj.partido.codpartido = '" + codPartido + "'", PartidosJugadore.class);
 		return query.getResultList();
 	}
 	
