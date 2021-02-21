@@ -29,4 +29,16 @@ public class PartidosFacadeImpl extends AbstractFacadeJPAImpl<Partido> implement
 		return em;
 	}
 
+	@Override
+	public Partido encontrarPartido(String codPartido) {
+		TypedQuery<Partido> query = em.createQuery("select p from Partido p where p.codpartido = '" 
+				+ codPartido + "'", Partido.class);
+		List<Partido> resultados = query.getResultList();
+		if (resultados.size() > 0) {
+			return resultados.get(0);
+		}
+		return null;
+	}
+
+
 }

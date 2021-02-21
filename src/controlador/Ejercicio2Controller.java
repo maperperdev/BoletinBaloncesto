@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,33 +28,30 @@ public class Ejercicio2Controller implements Serializable {
 
 	@EJB
 	private JugadoreFacade jugadoreFacade;
-	
+
 	@EJB
 	private TemporadaFacade temporadaFacade;
-	
+
 	@EJB
 	private PartidoFacade partidoFacade;
-	
+
 	@EJB
 	private PartidoJugadoreFacade partidoJugadoreFacade;
-	
+
 	private String codTemp;
 	private String codJugador;
 	private String codPartido;
 	private String canastas;
 	private String asistencias;
 	private String rebotes;
-	
+
 	@Inject
 	private PartidosJugadore partidoJugador;
-	
-	
+
 	private List<Jugadore> listaJugadores;
 	private List<Temporada> listaTemporadas;
 	private List<Partido> listaPartidos;
-	
-	
-	
+
 	@PostConstruct
 	public void init() {
 		listaJugadores = jugadoreFacade.findAll();
@@ -67,7 +66,7 @@ public class Ejercicio2Controller implements Serializable {
 	public void setJugadoreFacade(JugadoreFacade jugadoreFacade) {
 		this.jugadoreFacade = jugadoreFacade;
 	}
-	
+
 	public PartidosJugadore getPartidoJugador() {
 		return partidoJugador;
 	}
@@ -100,25 +99,56 @@ public class Ejercicio2Controller implements Serializable {
 		this.listaPartidos = listaPartidos;
 	}
 
-	public void insertaJugador() {
-		List<PartidosJugadore> listaPartidoJugador = partidoJugadoreFacade.jugadorTemporadaPartido(codJugador,
-				codTemp, codPartido);
-		System.out.println();
-		if (listaPartidoJugador.size() > 0) {
-			System.out.println("El jugador existe");
-			partidoJugador = listaPartidoJugador.get(0);
-			partidoJugador.setAsistencias(Integer.parseInt(asistencias));
-			partidoJugador.setCanastas(Integer.parseInt(canastas));
-			partidoJugador.setRebotes(Integer.parseInt(rebotes));
-			partidoJugadoreFacade.update(partidoJugador);
-			/*
-			 * partidoFacade.update(new PartidosJugadore());
-			 */
-		} else {
-			System.out.println("El jugador no existe");
+	public String insertaJugador() {
+		System.out.println("ha entrado en insertarJugador");
+		String mensajeError = "";
+		if (codJugador == null) {
+			mensajeError += "No ha seleccionado el nombre del jugador. ";
+		}
+		if (codTemp == null) {
+			mensajeError += "No ha seleccionado el nombre de la temporada. ";
+		}
+		if (codPartido == null) {
+			mensajeError += "No ha seleccionado el nombre de partido. ";
 		}
 		
-  
+		if (asistencias == null) {
+			mensajeError += "No ha introducido las asistencias del jugador.";
+		}
+		
+		if (canastas == null) {
+			mensajeError += "No ha introducido las canastas del jugador. ";
+		}
+		
+		if (rebotes == null) {
+			mensajeError += "No ha introducido los rebotes del jugador.";
+		}
+		
+		if (mensajeError.length() == 0) {
+			if (partidoJugadoreFacade.existeJugadorTemporada(codJugador, codTemp)) {
+				PartidosJugadore partidoJugador = new PartidosJugadore();
+				Partido partido = partidoFacade.encontrarPartido(codPartido);
+				Jugadore jugadore = jugadoreFacade.findJugador(codJugador);
+
+				partidoJugador.setAsistencias(Integer.parseInt(asistencias));
+				partidoJugador.setCanastas(Integer.parseInt(canastas));
+				partidoJugador.setRebotes(Integer.parseInt(rebotes));
+				partidoJugador.setJugadore(jugadore);
+				partidoJugador.setPartido(partido);
+				try {
+					partidoJugadoreFacade.create(partidoJugador);
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "Se registraron los datos del jugador", "Info"));
+				} catch (Exception e) {
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "El jugador elegido no jugó ese partido en esa temporada.", "Error"));
+				}
+			} 
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, mensajeError, "Error"));
+		}
+		return null;
 	}
 
 	public String getCodTemp() {
@@ -168,5 +198,5 @@ public class Ejercicio2Controller implements Serializable {
 	public void setRebotes(String rebotes) {
 		this.rebotes = rebotes;
 	}
-	
+
 }

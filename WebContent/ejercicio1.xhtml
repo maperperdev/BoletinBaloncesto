@@ -15,41 +15,65 @@
 
 <h:body>
 
-	<h:form>
-		<p:selectOneMenu value="#{ejercicio1Controller.codTemp}">
-			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
-			<f:selectItems value="#{ejercicio1Controller.listaTemporadas}"
-				var="temporada" itemLabel="#{temporada.nombre}"
-				itemValue="#{temporada.codtemp}" />
-		</p:selectOneMenu>
 
-		<p:selectOneMenu value="#{ejercicio1Controller.codJugador}">
-			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
-			<f:selectItems value="#{ejercicio1Controller.listaJugadores}"
-				var="jugador" itemLabel="#{jugador.nombrejugador}"
-				itemValue="#{jugador.codjugador}" />
-		</p:selectOneMenu>
+	<ui:composition template="/templates/masterLayout.xhtml">
 
-		<p:commandButton value="Buscar equipos"
-			action="#{ejercicio1Controller.buscarEquipoSalario()}" />
-	</h:form>
-
-	<h:form>
-		<p:selectOneMenu value="#{ejercicio1Controller.codTemp2}">
-			<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
-			<f:selectItems value="#{ejercicio1Controller.listaTemporadas}"
-				var="temporada" itemLabel="#{temporada.nombre}"
-				itemValue="#{temporada.codtemp}" />
-		</p:selectOneMenu>
-
-		<p:commandButton value="Buscar jugador"
-			action="#{ejercicio1Controller.buscarJugadoresCambioEquipo()}" />
-
-	</h:form>
+		<ui:define name="content">
 
 
+			<p:growl id="mensaje" severity="error,info" showdetail="true">
+				<p:autoUpdate>true</p:autoUpdate>
+			</p:growl>
+			<h:form class="formulario">
+				<p>#{msgs.enunciado1}</p>
+				<p:panelGrid columns="2">
+					<p:outputLabel for="codJugador" value="Nombre del jugador *" />
+					<p:selectOneMenu id="codJugador"
+						value="#{ejercicio1Controller.codJugador}">
+						<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+						<f:selectItems value="#{ejercicio1Controller.listaJugadores}"
+							var="jugador" itemLabel="#{jugador.nombrejugador}"
+							itemValue="#{jugador.codjugador}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="selectCodTemp" value="Nombre de la temporada *" />
+					<p:selectOneMenu id="selectCodTemp"
+						value="#{ejercicio1Controller.codTemp}">
+						<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+						<f:selectItems value="#{ejercicio1Controller.listaTemporadas}"
+							var="temporada" itemLabel="#{temporada.nombre}"
+							itemValue="#{temporada.codtemp}" />
+					</p:selectOneMenu>
+
+					<p:commandButton value="Buscar equipos"
+						action="#{ejercicio1Controller.buscarEquipoSalario()}"
+						update="mensaje" />
+				</p:panelGrid>
+
+			</h:form>
+
+			<h:form class="formulario">
+				<p>#{msgs.enunciado2}</p>
+				<p:panelGrid columns="2">
+					<p:outputLabel for="codTemp2" value="Nombre de la temporada *" />
+					<p:selectOneMenu id="codTemp2"
+						value="#{ejercicio1Controller.codTemp2}">
+						<f:selectItem itemLabel="SELECCIONE" itemValue=""></f:selectItem>
+						<f:selectItems value="#{ejercicio1Controller.listaTemporadas}"
+							var="temporada" itemLabel="#{temporada.nombre}"
+							itemValue="#{temporada.codtemp}" />
+					</p:selectOneMenu>
+					<p:commandButton value="Buscar jugador"
+						action="#{ejercicio1Controller.buscarJugadoresCambioEquipo()}"
+						update="mensaje" />
+				</p:panelGrid>
+			</h:form>
 
 
+			<p:link outcome="ejercicio2" value="Ir al ejercicio 2" />
+
+		</ui:define>
+	</ui:composition>
 </h:body>
 
 </html>

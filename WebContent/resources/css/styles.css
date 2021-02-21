@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#header {
+	color: white;
+	background-color: blue;
+	padding: 1rem;
+	margin: 0.2rem;
+}
+
+.formulario {
+	background-color: #d3d7cf;
+}

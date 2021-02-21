@@ -4,6 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
-     
-
+     <application>
+     	<message-bundle>app_messages.messages</message-bundle>
+     	<resource-bundle>
+     		<base-name>app_messages.messages</base-name>
+     		<var>msgs</var>
+     	</resource-bundle>
+     </application>
 </faces-config>

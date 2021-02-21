@@ -1,19 +1,21 @@
 package controlador;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import ejb.JugadoreFacade;
 import ejb.TempEquipoJugadorFacade;
 import ejb.TemporadaFacade;
 import modelo.Jugadore;
-import modelo.PartidosJugadore;
 import modelo.Temporada;
 
 @Named
@@ -34,6 +36,8 @@ public class Ejercicio1Controller implements Serializable {
 	private String codTemp;
 	private String codTemp2;
 	private String codJugador;
+	private List<String[]> resultadosArray;
+	private List<String> resultadosArray2;
 	
 	
 	private List<Jugadore> listaJugadores;
@@ -72,32 +76,65 @@ public class Ejercicio1Controller implements Serializable {
 	}
 
 
-	public void buscarEquipoSalario() {
-		List<Object[]> resultados = tempEquipoJugadorFacade.buscarEquipoSalario(codJugador, codTemp);
-		if (resultados.size() > 0) {
+	public String buscarEquipoSalario() {
+		String mensajeError = "";
+		if (codJugador == null) {
+			mensajeError += "No ha seleccionado el nombre del jugador. ";
+		}
+		if (codTemp == null) {
+			mensajeError += "No ha seleccionado el nombre de la temporada.";
+		}
+		List<Object[]> resultados1 = tempEquipoJugadorFacade.buscarEquipoSalario(codJugador, codTemp);
+		if (resultados1.size() > 0) {
 			System.out.println("Jugador encontrado");
-			for (Object[] resultado : resultados) {
+			resultadosArray = new ArrayList<>();
+			for (Object[] resultado : resultados1) {
+				String[] array = {resultado[0] + "", resultado[1] + ""};
+				resultadosArray.add(array);
 				System.out.println("Nombre de equipo: " + resultado[0] + ", Salario: " + resultado[1]);
 			}
+			FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("resultadosArray", resultadosArray);
+			return "resultado1";
 		} else {
-			System.out.println("Jugador no encontrado");
+			if (mensajeError.length() > 0) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensajeError, "Info"));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Jugador no encontrado en la temporada elegida", "Error"));
+			}
+			return null;
 		}
 	}
 
-	public void buscarJugadoresCambioEquipo() {
+	public String buscarJugadoresCambioEquipo() {
+		String mensajeError = "";
+		if (codTemp2 == null) {
+			mensajeError += "No ha seleccionado el nombre de la temporada.";
+		}
 		List<String> resultados = tempEquipoJugadorFacade.buscarJugadorCambioEquipo(codTemp2);
+		resultadosArray2 = new ArrayList<>();
 		if (resultados.size() > 0) {
 			System.out.println("Jugador encontrado");
 			for (String resultado : resultados) {
-				System.out.println("Nombre del jugador chaquetero: " + resultado);
+				resultadosArray2.add(resultado);
+				System.out.println("Nombre del jugador que cambia de equipo: " + resultado);
 			}
+		FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("resultadosArray2", resultadosArray2);
+		return "resultado2";
 		} else {
 			System.out.println("Jugador no encontrado");
+			if (mensajeError.length() > 0) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensajeError, "Error"));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"El jugador elegido no ha cambiado de equipo en la temporada elegida", "Info"));
+			}
 		}
+		return "ejercicio1";
 	}
 	
 	public String getCodTemp() {
-		return codTemp;
+		return codTemp;	
 	}
 
 	public void setCodTemp(String codTemp) {
@@ -119,7 +156,12 @@ public class Ejercicio1Controller implements Serializable {
 	public void setCodTemp2(String codTemp2) {
 		this.codTemp2 = codTemp2;
 	}
-	
-	
-	
+
+	public List<String[]> getResultadosArray() {
+		return resultadosArray;
+	}
+
+	public void setResultadosArray(List<String[]> resultadosArray) {
+		this.resultadosArray = resultadosArray;
+	}
 }

@@ -7,4 +7,5 @@ import modelo.Partido;
 @Local
 public interface PartidoFacade extends AbstractFacadeJPA<Partido> {
 	public List<Partido> findAll();
+	public Partido encontrarPartido(String codPartido);
 }
